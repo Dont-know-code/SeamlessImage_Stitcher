@@ -5,7 +5,8 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 一款轻量级、高性能的无损无缝图像拼接软件，专为创建高质量、无边框的连续图像作品而设计。
-<img width="1900" height="1340" alt="PixPin_2025-09-30_16-40-10" src="https://github.com/user-attachments/assets/17448949-36f3-4967-94e9-edec40c109f8" />
+<img width="1885" height="1332" alt="PixPin_2025-09-30_16-46-31" src="https://github.com/user-attachments/assets/51332949-bbbd-4316-a062-e680b627a6d5" />
+
 
 ## ✨ 特性亮点
 
@@ -30,14 +31,25 @@
 - **主题切换**：支持深色/浅色主题
 - **直观操作**：拖拽式文件添加，简单易用
 
+## 📋 系统要求
+
+| 组件 | 最低要求 | 推荐配置 |
+|------|----------|----------|
+| 操作系统 | Windows 7 SP1 / 8.1 / 10 / 11 (64位) | Windows 10 / 11 (64位) |
+| .NET运行时 | .NET 8.0 Desktop Runtime | .NET 8.0 Desktop Runtime |
+| 处理器 | 1GHz或更快处理器 | 双核或以上CPU |
+| 内存 | 2GB RAM | 4GB RAM或以上 |
+| 硬盘空间 | 50MB可用空间 | 100MB可用空间 |
+| 显示 | 1024×768分辨率 | 1920×1080或更高 |
 
 ## 🚀 快速开始
 
 ### 下载安装
 
 1. 从 [Releases页面]([https://github.com/your-repo/releases](https://github.com/Dont-know-code/SeamlessImage_Stitcher/releases)) 下载最新版本
-2. 运行安装程序或解压便携版
-3. 确保系统已安装 [.NET 8.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)  （下载**msi可自动安装**，下载zip请自行安装）
+2. 运行安装程序（MSI格式）或解压便携版（ZIP格式）
+3. 确保系统已安装 [.NET 8.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
+   - 注意：便携版为自包含应用，无需额外安装.NET运行时  （下载**msi可自动安装**，下载zip请自行安装）
 
 ### 使用方法
 
@@ -56,9 +68,7 @@
    - 使用撤销/重做功能
 
 4. **保存结果**
-   - 选择输出格式和质量
-   - 指定保存路径
-   - 点击"保存"完成
+     - 点击"保存"完成（默认保存在桌面上）
 
 
 ### 项目结构
