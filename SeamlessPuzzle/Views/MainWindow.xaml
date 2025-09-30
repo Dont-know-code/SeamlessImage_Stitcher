@@ -1,0 +1,555 @@
+<Window x:Class="SeamlessPuzzle.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeamlessPuzzle.Views"
+        xmlns:viewModels="clr-namespace:SeamlessPuzzle.ViewModels"
+        xmlns:utils="clr-namespace:SeamlessPuzzle.Utils"
+        mc:Ignorable="d"
+        Title="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=WindowTitle}" Height="900" Width="1280"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource WindowBackground}">
+    
+    <Window.DataContext>
+        <viewModels:MainViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <!-- 定义语言转换器 -->
+        <local:LanguageConverter x:Key="LanguageConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+        <!-- 定义圆角按钮样式 -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource ControlBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="30,15"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="{DynamicResource ControlHoverBackground}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="{DynamicResource ControlPressedBackground}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 修复按钮焦点视觉效果样式 -->
+        <Style TargetType="Button">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Stroke="{DynamicResource AccentColor}" StrokeThickness="2" 
+                                               RadiusX="10" RadiusY="10" Margin="-3"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 定义主操作按钮样式 -->
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="35,18"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#0066CC"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="#0055B3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 定义功能按钮样式（清空、撤销、重做） -->
+        <Style x:Key="FunctionButton" TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Padding" Value="25,12"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="MinWidth" Value="80"/>
+        </Style>
+        
+        <!-- 定义保存按钮样式 -->
+        <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Background" Value="{DynamicResource ControlBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+            <Setter Property="Padding" Value="25,12"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
+        
+        <!-- 定义拼接模式按钮样式 -->
+        <Style x:Key="PuzzleModeButton" TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+            <Setter Property="Padding" Value="25,15"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+        </Style>
+        
+        <!-- 定义醒目主操作按钮样式 -->
+        <Style x:Key="ProminentPrimaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#FF4D4D"/>  <!-- 更醒目的红色 -->
+            <Setter Property="Padding" Value="35,18"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#FF3333"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="#E60000"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 定义图像项的样式 -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border BorderThickness="2" 
+                                BorderBrush="{TemplateBinding Background}"
+                                Background="{DynamicResource ControlBackground}" 
+                                CornerRadius="8" 
+                                x:Name="border">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource AccentColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ControlHoverBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 滚动条样式 -->
+        <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border CornerRadius="4" 
+                                Background="{DynamicResource ScrollBarThumb}" 
+                                BorderThickness="0"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="{DynamicResource ScrollBarThumbHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsDragging" Value="true">
+                                <Setter Property="Background" Value="{DynamicResource ScrollBarThumbPressed}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarStyle" TargetType="{x:Type ScrollBar}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Background" Value="{DynamicResource ScrollBarBackground}"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="12"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                    <Track x:Name="PART_Track" IsDirectionReversed="true">
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                                        </Track.Thumb>
+                                    </Track>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Height" Value="12"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                    <Track x:Name="PART_Track" IsDirectionReversed="false">
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                                        </Track.Thumb>
+                                    </Track>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- 应用滚动条样式到所有滚动条 -->
+        <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource ScrollBarStyle}"/>
+        
+        <!-- 进度条样式 -->
+        <Style TargetType="ProgressBar">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border x:Name="PART_Track" Background="{DynamicResource ControlBackground}" CornerRadius="5">
+                            <Border x:Name="PART_Indicator" Background="{DynamicResource AccentColor}" CornerRadius="5" HorizontalAlignment="Left"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- 设置菜单样式 -->
+        <Style x:Key="SettingsContextMenuStyle" TargetType="ContextMenu">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContextMenu">
+                        <Border x:Name="Border"
+                                Background="{DynamicResource PanelBackground}"
+                                BorderBrush="{DynamicResource BorderColor}"
+                                BorderThickness="1"
+                                CornerRadius="8">
+                            <StackPanel IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow" Value="true">
+                                <Setter TargetName="Border" Property="Padding" Value="0,0,0,0"/>
+                                <Setter TargetName="Border" Property="CornerRadius" Value="8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 顶部标题栏 -->
+        <Border Grid.Row="0" Background="{DynamicResource HeaderBackground}" Padding="20,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=Title}" FontSize="20" FontWeight="SemiBold" 
+                           VerticalAlignment="Center" Foreground="{DynamicResource TextColor}"/>
+                
+                <!-- 保存警告文本 -->
+                <TextBlock Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Foreground="Red" FontWeight="Bold" FontSize="14"
+                           Text="{Binding Source={x:Static utils:LanguageManager.Instance}, 
+                                  Path=CurrentLanguage, 
+                                  Converter={x:Static local:LanguageConverter.Instance}, 
+                                  ConverterParameter=SaveWarning}"
+                           Visibility="{Binding IsSaveWarningVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- 主要内容区 -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- 左侧区域：图片列表、拼接模式、已添加图片 -->
+            <Border Grid.Column="0" Background="{DynamicResource PanelBackground}" 
+                    BorderBrush="{DynamicResource BorderColor}" BorderThickness="1" 
+                    CornerRadius="12" Padding="15" Margin="0,0,20,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- 图片列表 -->
+                    <DockPanel Grid.Row="0">
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=ImageList}" FontSize="16" FontWeight="SemiBold" 
+                                   Margin="0,0,0,15" Foreground="{DynamicResource TextColor}"/>
+                        
+                        <!-- 图片拖放区域 -->
+                        <Border DockPanel.Dock="Top" BorderThickness="2" BorderBrush="{DynamicResource DropAreaBorder}" 
+                                Background="{DynamicResource DropAreaBackground}" Height="150" CornerRadius="10" 
+                                AllowDrop="True" 
+                                PreviewDragOver="ImageDropPreviewDragOver" 
+                                Drop="ImageDrop" 
+                                PreviewKeyDown="ImageDropPreviewKeyDown">
+                            <Grid>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Ellipse Width="40" Height="40" Fill="{DynamicResource DropAreaIcon}" 
+                                             HorizontalAlignment="Center" Margin="0,0,0,10">
+                                        <Ellipse.OpacityMask>
+                                            <VisualBrush>
+                                                <VisualBrush.Visual>
+                                                    <TextBlock Text="+" FontSize="30" FontWeight="Bold" 
+                                                               Foreground="White" HorizontalAlignment="Center" 
+                                                               VerticalAlignment="Center"/>
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Ellipse.OpacityMask>
+                                    </Ellipse>
+                                <TextBlock Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=DragDropArea}" HorizontalAlignment="Center" 
+                                           TextWrapping="Wrap" TextAlignment="Center" 
+                                           Foreground="{DynamicResource DropAreaText}" 
+                                           FontWeight="SemiBold" FontSize="14"/>
+                                <TextBlock Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=OrPressCtrlV}" HorizontalAlignment="Center" 
+                                           Margin="0,5,0,0" FontSize="12" 
+                                           Foreground="{DynamicResource TextSecondaryColor}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DockPanel>
+                    
+                    <!-- 拼接模式选择 -->
+                    <StackPanel Grid.Row="1" Margin="0,15,0,0">
+                        <TextBlock Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=PuzzleMode}" FontSize="14" FontWeight="SemiBold" 
+                                   Margin="0,0,0,10" Foreground="{DynamicResource TextColor}"/>
+                        
+                        <UniformGrid Rows="2" Columns="2" Margin="0,0,0,15">
+                            <Button Style="{StaticResource PuzzleModeButton}" 
+                                    Command="{Binding HorizontalPuzzleCommand}" 
+                                    Content="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=HorizontalPuzzle}"/>
+                            <Button Style="{StaticResource PuzzleModeButton}" 
+                                    Command="{Binding VerticalPuzzleCommand}" 
+                                    Content="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=VerticalPuzzle}"/>
+                            <Button Style="{StaticResource PuzzleModeButton}" 
+                                    Command="{Binding Grid4PuzzleCommand}" 
+                                    Content="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=Grid4Puzzle}"/>
+                            <Button Style="{StaticResource PuzzleModeButton}" 
+                                    Command="{Binding Grid9PuzzleCommand}" 
+                                    Content="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=Grid9Puzzle}"/>
+                        </UniformGrid>
+                    </StackPanel>
+                    
+                    <!-- 已添加图片及其预览框 -->
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=AddedImages}" FontSize="14" FontWeight="SemiBold" 
+                                   Margin="0,0,0,10" Foreground="{DynamicResource TextColor}" 
+                                   VerticalAlignment="Top"/>
+                        
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <!-- 添加拖拽支持 -->
+                            <ListBox ItemsSource="{Binding Images}" SelectionMode="Extended"
+                                     PreviewMouseLeftButtonDown="ImageListItemPreviewMouseLeftButtonDown"
+                                     PreviewMouseMove="ImageListItemPreviewMouseMove"
+                                     Drop="ImageListItemDrop"
+                                     AllowDrop="True"
+                                     DragEnter="ImageListItemDragEnter">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <!-- 序号显示 -->
+                                            <Border Grid.Column="0" Width="30" Height="30" 
+                                                    Background="{DynamicResource AccentColor}" 
+                                                    CornerRadius="15" Margin="0,0,10,0"
+                                                    VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Converter={x:Static local:IndexConverter.Instance}}" 
+                                                           Foreground="White" 
+                                                           HorizontalAlignment="Center" 
+                                                           VerticalAlignment="Center"
+                                                           FontWeight="SemiBold"/>
+                                            </Border>
+                                            
+                                            <!-- 使用Viewbox使图片自适应容器大小 -->
+                                            <Border Grid.Column="1" Width="150" Height="150" 
+                                                    Background="{DynamicResource ImageContainerBackground}" Margin="0,0,15,0" CornerRadius="8">
+                                                <Viewbox Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                         StretchDirection="Both" MinWidth="105" MinHeight="105">
+                                                    <Image Source="{Binding Thumbnail}" />
+                                                </Viewbox>
+                                            </Border>
+                                            
+                                            <TextBlock Grid.Column="2" Text="{Binding FileName}" 
+                                                       VerticalAlignment="Center" 
+                                                       Foreground="{DynamicResource TextColor}" 
+                                                       TextTrimming="CharacterEllipsis" FontSize="14"/>
+                                            
+                                            <CheckBox Grid.Column="3" IsChecked="{Binding IsSelected}" 
+                                                      VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Border>
+            
+            <!-- 右侧区域：拼图预览 -->
+            <Border Grid.Column="1" Background="{DynamicResource PanelBackground}" 
+                    BorderBrush="{DynamicResource BorderColor}" BorderThickness="1" 
+                    CornerRadius="12" Padding="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid Grid.Row="0" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=PuzzlePreview}" FontSize="16" FontWeight="SemiBold" 
+                                   Foreground="{DynamicResource TextColor}" VerticalAlignment="Center"/>
+                        
+                        <TextBlock Grid.Column="1" FontSize="10" Foreground="Gray" 
+                                   HorizontalAlignment="Right" VerticalAlignment="Top"
+                                   TextWrapping="Wrap" TextAlignment="Right">
+                            <Run Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=PreviewNote}"/>
+                            <LineBreak/>
+                            <Run FontWeight="Bold" Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=but the image you save will be as clear as the imported ones without compression}"/>
+                            <LineBreak/>
+                            <Run Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=CtrlScrollZoom}"/>
+                        </TextBlock>
+                    </Grid>
+                    
+                    <!-- 预览图像区域 -->
+                    <Border Grid.Row="1" Background="{DynamicResource PreviewImageBackground}" 
+                            BorderBrush="{DynamicResource BorderColor}" BorderThickness="1" 
+                            CornerRadius="10">
+                        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto"
+                                      PreviewMouseWheel="PreviewImageScroll" x:Name="PreviewScrollViewer">
+                            <Grid x:Name="PreviewImageGrid">
+                                <Image Source="{Binding PreviewImage}" HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" Stretch="Uniform" x:Name="PreviewImage"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </Border>
+                    
+                    <!-- 当前模式显示和保存按钮 -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" 
+                                Margin="0,15,0,0">
+                        <Button Style="{StaticResource FunctionButton}" Click="SettingsButton_Click">
+                            <Button.Content>
+                                <Path Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" 
+                                      Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" 
+                                      Width="20" Height="20" Stretch="Uniform"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Style="{StaticResource FunctionButton}" Command="{Binding RemoveAllCommand}" 
+                                Content="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=Clear}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="15,0" 
+                                   Foreground="{DynamicResource TextColor}">
+                            <Run Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=CurrentMode}"/>
+                            <Run>
+                                <Run.Text>
+                                    <MultiBinding Converter="{x:Static local:PuzzleModeToLanguageConverter.Instance}">
+                                        <Binding Path="CurrentMode"/>
+                                        <Binding Source="{x:Static utils:LanguageManager.Instance}" Path="CurrentLanguage"/>
+                                    </MultiBinding>
+                                </Run.Text>
+                            </Run>
+                        </TextBlock>
+                        <Button Style="{StaticResource SaveButton}" Command="{Binding SaveCommand}" 
+                                Content="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=SavePuzzle}"/>
+                    </StackPanel>
+                    
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <!-- 底部状态栏 -->
+        <Border Grid.Row="2" Background="{DynamicResource HeaderBackground}" Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- 左下角状态文本 -->
+                <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                           Text="{Binding Source={x:Static utils:LanguageManager.Instance}, Path=CurrentLanguage, Converter={x:Static local:LanguageConverter.Instance}, ConverterParameter=Ready}" Foreground="{DynamicResource TextColor}"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                </StackPanel>
+                
+                <ProgressBar Grid.Column="2" Height="10" Value="{Binding Progress}" 
+                             IsIndeterminate="{Binding IsProcessing, Converter={x:Static local:BooleanToIndeterminateConverter.Instance}}"
+                             Margin="10,0,0,0">
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Border x:Name="PART_Track" Background="{DynamicResource ControlBackground}" CornerRadius="5">
+                                            <Border x:Name="PART_Indicator" Background="{DynamicResource AccentColor}" CornerRadius="5" HorizontalAlignment="Left"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 浅色主题颜色定义 -->
+    <SolidColorBrush x:Key="WindowBackground" Color="#F8F9FA"/>
+    <SolidColorBrush x:Key="PanelBackground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ControlBackground" Color="#F1F3F4"/>
+    <SolidColorBrush x:Key="ControlHoverBackground" Color="#E2E6E9"/>
+    <SolidColorBrush x:Key="ControlPressedBackground" Color="#D4D8DC"/>
+    <SolidColorBrush x:Key="HeaderBackground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextColor" Color="#1D1D1D"/>
+    <SolidColorBrush x:Key="TextSecondaryColor" Color="#666666"/>
+    <SolidColorBrush x:Key="BorderColor" Color="#DADCE0"/>
+    <SolidColorBrush x:Key="AccentColor" Color="#1A73E8"/>
+    <SolidColorBrush x:Key="ErrorColor" Color="#EA4335"/>
+    <SolidColorBrush x:Key="SuccessColor" Color="#34A853"/>
+    
+    <!-- 已添加图片容器背景色 -->
+    <SolidColorBrush x:Key="ImageContainerBackground" Color="#E8EAED"/>
+    
+    <!-- 浅色主题专用颜色 -->
+    <SolidColorBrush x:Key="PopupBackground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ScrollBarBackground" Color="#F1F3F4"/>
+    <SolidColorBrush x:Key="ScrollBarThumb" Color="#DADCE0"/>
+    <SolidColorBrush x:Key="ScrollBarThumbHover" Color="#C0C3C6"/>
+    <SolidColorBrush x:Key="ScrollBarThumbPressed" Color="#A8ACAF"/>
+    <SolidColorBrush x:Key="PreviewImageBackground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="DropAreaBackground" Color="#F1F3F4"/>
+    <SolidColorBrush x:Key="DropAreaBorder" Color="#DADCE0"/>
+    <SolidColorBrush x:Key="DropAreaText" Color="#1D1D1D"/>
+    <SolidColorBrush x:Key="DropAreaIcon" Color="#1A73E8"/>
+    <SolidColorBrush x:Key="SelectedImageBorder" Color="#1A73E8"/>
+    <SolidColorBrush x:Key="HoveredImageBorder" Color="#DADCE0"/>
+</ResourceDictionary>
