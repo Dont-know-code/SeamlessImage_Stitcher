@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 一款轻量级、高性能的无损无缝图像拼接软件，专为创建高质量、无边框的连续图像作品而设计。
+<img width="1900" height="1340" alt="PixPin_2025-09-30_16-40-10" src="https://github.com/user-attachments/assets/17448949-36f3-4967-94e9-edec40c109f8" />
 
 ## ✨ 特性亮点
 
@@ -29,23 +30,14 @@
 - **主题切换**：支持深色/浅色主题
 - **直观操作**：拖拽式文件添加，简单易用
 
-## 📋 系统要求
-
-| 组件 | 最低要求 | 推荐配置 |
-|------|----------|----------|
-| 操作系统 | Windows 10 (64位) | Windows 11 (64位) |
-| .NET运行时 | .NET 8.0 Desktop Runtime | .NET 8.0 Desktop Runtime |
-| 处理器 | 双核CPU | 四核或以上CPU |
-| 内存 | 4GB RAM | 8GB RAM或以上 |
-| 硬盘空间 | 100MB可用空间 | 500MB可用空间 |
 
 ## 🚀 快速开始
 
 ### 下载安装
 
-1. 从 [Releases页面](https://github.com/your-repo/releases) 下载最新版本
+1. 从 [Releases页面]([https://github.com/your-repo/releases](https://github.com/Dont-know-code/SeamlessImage_Stitcher/releases)) 下载最新版本
 2. 运行安装程序或解压便携版
-3. 确保系统已安装 [.NET 8.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
+3. 确保系统已安装 [.NET 8.0 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)  （下载**msi可自动安装**，下载zip请自行安装）
 
 ### 使用方法
 
@@ -68,29 +60,6 @@
    - 指定保存路径
    - 点击"保存"完成
 
-## 🛠️ 开发构建
-
-### 环境要求
-- Visual Studio 2022 或更高版本
-- .NET 8.0 SDK
-- Git
-
-### 构建步骤
-
-```bash
-# 克隆仓库
-git clone https://github.com/your-repo/seamless-image-stitcher.git
-cd seamless-image-stitcher
-
-# 还原NuGet包
-dotnet restore
-
-# 构建项目
-dotnet build --configuration Release
-
-# 运行测试
-dotnet test
-```
 
 ### 项目结构
 
@@ -154,7 +123,7 @@ SeamlessImage_Stitcher/
 我们欢迎各种形式的贡献！
 
 ### 报告问题
-- 使用 [Issues页面](https://github.com/your-repo/issues) 报告bug或建议
+- 使用 [Issues页面]([https://github.com/your-repo/issues](https://github.com/Dont-know-code/SeamlessImage_Stitcher/issues)) 报告bug或建议
 - 提供详细的问题描述和复现步骤
 
 ### 提交代码
@@ -169,21 +138,11 @@ SeamlessImage_Stitcher/
 - 添加必要的注释和文档
 - 确保所有测试通过
 
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
-
-## 🙏 致谢
-
-感谢以下开源项目的支持：
-- [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp) - 强大的图像处理库
-- [.NET Foundation](https://dotnetfoundation.org/) - 优秀的开发平台
 
 ## 📞 联系方式
 
-- 项目主页: [GitHub Repository](https://github.com/your-repo)
-- 问题反馈: [Issues](https://github.com/your-repo/issues)
-- 邮箱: your-email@example.com
+- 项目主页: [GitHub Repository](https://github.com/Dont-know-code/SeamlessImage_Stitcher)
+- 问题反馈: [Issues]([https://github.com/your-repo/issues](https://github.com/Dont-know-code/SeamlessImage_Stitcher/issues))
 
 ---
 
