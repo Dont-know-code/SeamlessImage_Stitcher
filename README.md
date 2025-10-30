@@ -6,6 +6,8 @@
 
 一款轻量级、高性能的无损无缝图像拼接软件，专为创建高质量、无边框的连续图像作品而设计。
 <img width="1885" height="1332" alt="PixPin_2025-09-30_16-46-31" src="https://github.com/user-attachments/assets/51332949-bbbd-4316-a062-e680b627a6d5" />
+<img width="1898" height="1339" alt="PixPin_2025-10-30_09-14-39" src="https://github.com/user-attachments/assets/020e2bc0-61e0-4b50-a0f2-7608c9ba2f57" />
+
 
 
 ## ✨ 特性亮点
