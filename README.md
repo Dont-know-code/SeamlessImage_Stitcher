@@ -2,7 +2,7 @@
 
 [![.NET 8.0](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D4?logo=windows)](https://www.microsoft.com/windows)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 一款轻量级、高性能的无损无缝图像拼接软件，专为创建高质量、无边框的连续图像作品而设计。
 <img width="1885" height="1332" alt="PixPin_2025-09-30_16-46-31" src="https://github.com/user-attachments/assets/51332949-bbbd-4316-a062-e680b627a6d5" />
